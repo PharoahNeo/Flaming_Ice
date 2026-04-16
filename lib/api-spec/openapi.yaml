@@ -3,13 +3,19 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: API specification for SwiftRoute Logistics
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: quotes
+    description: Shipment quote requests
+  - name: tracking
+    description: Shipment tracking
+  - name: services
+    description: Logistics services
 paths:
   /healthz:
     get:
@@ -24,6 +30,88 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /quotes:
+    post:
+      operationId: submitQuote
+      tags: [quotes]
+      summary: Submit a quote request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuoteRequest"
+      responses:
+        "201":
+          description: Quote submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuoteResponse"
+    get:
+      operationId: listQuotes
+      tags: [quotes]
+      summary: List all quote requests
+      responses:
+        "200":
+          description: List of quote requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuoteResponse"
+
+  /tracking/{trackingNumber}:
+    get:
+      operationId: trackShipment
+      tags: [tracking]
+      parameters:
+        - name: trackingNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Track a shipment
+      responses:
+        "200":
+          description: Shipment tracking details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackingResult"
+        "404":
+          description: Shipment not found
+
+  /services:
+    get:
+      operationId: listServices
+      tags: [services]
+      summary: List all logistics services
+      responses:
+        "200":
+          description: List of logistics services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+
+  /stats:
+    get:
+      operationId: getStats
+      tags: [services]
+      summary: Get company stats summary
+      responses:
+        "200":
+          description: Company statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +122,151 @@ components:
       required:
         - status
 
+    QuoteRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        weight:
+          type: number
+        serviceType:
+          type: string
+          enum: [standard, express, freight, international]
+        notes:
+          type: string
+      required:
+        - name
+        - email
+        - origin
+        - destination
+        - serviceType
+
+    QuoteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        weight:
+          type: number
+        serviceType:
+          type: string
+        notes:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - email
+        - origin
+        - destination
+        - serviceType
+        - status
+        - createdAt
+
+    TrackingResult:
+      type: object
+      properties:
+        trackingNumber:
+          type: string
+        status:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        estimatedDelivery:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrackingEvent"
+      required:
+        - trackingNumber
+        - status
+        - origin
+        - destination
+        - estimatedDelivery
+        - events
+
+    TrackingEvent:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+      required:
+        - timestamp
+        - location
+        - description
+        - status
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+        estimatedDays:
+          type: string
+        startingPrice:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - icon
+        - features
+        - estimatedDays
+        - startingPrice
+
+    Stats:
+      type: object
+      properties:
+        shipmentsDelivered:
+          type: integer
+        countriesServed:
+          type: integer
+        clientsServed:
+          type: integer
+        onTimeDeliveryRate:
+          type: number
+      required:
+        - shipmentsDelivered
+        - countriesServed
+        - clientsServed
+        - onTimeDeliveryRate

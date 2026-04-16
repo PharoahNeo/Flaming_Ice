@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "8dqXApb6Cimq3ZaPo7yR9"
+uri = "file://artifacts/logistics-website/src/assets/images/hero.png"
+type = "image"
+title = "Truck moving fast dark highway"
+
+[[generated]]
+id = "PM_gfXkQoH8VOy-iqVyRz"
+uri = "file://artifacts/logistics-website/src/assets/images/warehouse.png"
+type = "image"
+title = "Modern automated warehouse interior"
+
+[[generated]]
+id = "EAZgJu-DbKHw58Kz9Oioj"
+uri = "file://artifacts/logistics-website/src/assets/images/network.png"
+type = "image"
+title = "Global network map glowing"
+
+[[generated]]
+id = "x2DiIE6sGDwcISHjUoc0H"
+uri = "file://artifacts/logistics-website/src/assets/images/ship.png"
+type = "image"
+title = "Cargo ship at sea"

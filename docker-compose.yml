@@ -25,6 +25,8 @@ services:
       SESSION_SECRET: ${SESSION_SECRET:-changeme-in-production}
       AI_INTEGRATIONS_OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
       AI_INTEGRATIONS_OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-swiftroute2026}
     depends_on:
       db:
         condition: service_healthy

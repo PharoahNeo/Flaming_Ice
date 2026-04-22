@@ -115,3 +115,20 @@ pnpm --filter @workspace/logistics-website run dev
 For demo purposes:
 - `SWR-2024-001` — In Transit
 - `SWR-2024-002` — Delivered
+
+## Admin Dashboard
+
+Visit `/admin/login` to access the back-office.
+
+Default credentials (override via env vars `ADMIN_USERNAME` / `ADMIN_PASSWORD`):
+- Username: `admin`
+- Password: `swiftroute2026`
+
+The dashboard provides:
+- **Overview** — page views, unique visitors, daily traffic chart, top pages, top referrers
+- **Shipments** — full CRUD for tracking numbers (create, edit, delete, manage status events)
+- **Quotes** — view all quote requests, change status, delete
+- **Chats** — browse AI chatbot conversations and full message history
+- **Visitors** — recent page-view log
+
+Page views are recorded automatically for every public-page navigation (admin pages excluded).
